@@ -1,12 +1,12 @@
 // Restrict camera resolution to 640x360
-var constraints = { audio: false, video: { width: { max: 640 }, height: {max: 360} } };
+var constraints = window.constraints = { audio: false, video: { width: 640, height: 360 } };
 var canvas = document.querySelector('canvas');
 var filters = ['', 'grayscale', 'sepia', 'invert'], currentFilter = 0; 
+var video = document.querySelector('video');
 
 //Accesses the user's camera and displays feed in video tag
 navigator.mediaDevices.getUserMedia(constraints)
 .then(function(stream) {
-		video = document.querySelector('video');
 		var videoTracks = stream.getVideoTracks();
   		// console.log('Got stream with constraints:', constraints);
   		// console.log('Using video device: ' + videoTracks[0].label);
@@ -14,14 +14,14 @@ navigator.mediaDevices.getUserMedia(constraints)
     			console.log('Stream ended');
  		 };
   		window.stream = stream; // make variable available to browser console
-		  video.srcObject = stream;
+		video.srcObject = stream;
 
-});
-//.catch(function(err) { console.log(err.name + ": " + err.message); }); // catches any errors
+})
+.catch(function(err) { console.log(err.name + ": " + err.message); }); // catches any errors
 
 //Displays the captured selfie in the canvas area and applies filters as selected
 document.querySelector('#capture').addEventListener('click', function (event) {
-//	if (video) {
+	if (video) {
 		canvas.width = video.clientWidth;
 		canvas.height = video.clientHeight;
 		var context = canvas.getContext('2d');
@@ -33,8 +33,20 @@ document.querySelector('#capture').addEventListener('click', function (event) {
 		// currentFilter++;
 		// context.fillStyle = "white";
 		// context.fillText("Hello World!", 10, 10);
-//		}
+		}
 });
+
+// downloadLnk.addEventListener('click', false, function ());
+// function download() {
+//     var dt = canvas.toDataURL('image/jpeg');
+//     this.href = dt;
+// };
+
+document.querySelector('#downloadLnk').addEventListener('click', function (event) {
+	var dt = canvas.toDataURL('image/jpeg');
+	this.href = dt;
+})
+
 
 // Filter selection below
 
