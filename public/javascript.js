@@ -8,8 +8,8 @@ var video = document.querySelector('video');
 navigator.mediaDevices.getUserMedia(constraints)
 .then(function(stream) {
 		var videoTracks = stream.getVideoTracks();
-  		// console.log('Got stream with constraints:', constraints);
-  		// console.log('Using video device: ' + videoTracks[0].label);
+  		console.log('Got stream with constraints:', constraints);
+  		console.log('Using video device: ' + videoTracks[0].label);
   		stream.onended = function() {
     			console.log('Stream ended');
  		 };
@@ -19,6 +19,7 @@ navigator.mediaDevices.getUserMedia(constraints)
 })
 .catch(function(err) { console.log(err.name + ": " + err.message); }); // catches any errors
 
+
 //Displays the captured selfie in the canvas area and applies filters as selected
 document.querySelector('#capture').addEventListener('click', function (event) {
 	if (video) {
@@ -26,26 +27,15 @@ document.querySelector('#capture').addEventListener('click', function (event) {
 		canvas.height = video.clientHeight;
 		var context = canvas.getContext('2d');
 		context.drawImage(video, 0, 0);
-
-		
-		// if (currentFilter > filters.length - 1) currentFilter = 0;
-		// canvas.className = filters[currentFilter];
-		// currentFilter++;
-		// context.fillStyle = "white";
-		// context.fillText("Hello World!", 10, 10);
 		}
 });
 
-// downloadLnk.addEventListener('click', false, function ());
-// function download() {
-//     var dt = canvas.toDataURL('image/jpeg');
-//     this.href = dt;
-// };
+
 
 document.querySelector('#downloadLnk').addEventListener('click', function (event) {
 	var dt = canvas.toDataURL('image/jpeg');
 	this.href = dt;
-})
+});
 
 
 // Filter selection below
@@ -53,21 +43,18 @@ document.querySelector('#downloadLnk').addEventListener('click', function (event
 //No filter
 document.querySelector('#noFilter').addEventListener('click', function (event) {
 	canvas.className = filters[0];
-	
 });
 
 
 //Black and White filter
 document.querySelector('#blackAndWhite').addEventListener('click', function (event) {
 	canvas.className = filters[1];
-	
 });
 
 
 //Sephia Filter
-document.querySelector('#sephia').addEventListener('click', function (event) {
+document.querySelector('#sepia').addEventListener('click', function (event) {
 	canvas.className = filters[2];
-	
 });
 
 
